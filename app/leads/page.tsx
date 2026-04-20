@@ -25,6 +25,7 @@ interface LeadFull {
   dateTime: string
   who: string
   payment: string
+  stateY: string
   disposition: string
   linkedinProfile: string
   createdAt?: string
@@ -59,7 +60,7 @@ const FIELD_GROUPS = [
     { label: 'Where', key: 'where' }, { label: 'Date & Time', key: 'dateTime' }, { label: 'Who', key: 'who' },
   ]},
   { title: 'Status & Payment', icon: '◐', fields: [
-    { label: 'Status', key: 'status' }, { label: 'Payment', key: 'payment' }, { label: 'Disposition', key: 'disposition' },
+    { label: 'Status', key: 'status' }, { label: 'Payment', key: 'payment' },  { label: 'State Y', key: 'stateY' }, { label: 'Disposition', key: 'disposition' },
   ]},
 ]
 
