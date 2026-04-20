@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   const exists = await User.findOne({ email })
   if (exists) {
-    return NextResponse.json({ error: 'User exists' }, { status: 400 })
+    return NextResponse.json({ error: 'User already exists' }, { status: 400 })
   }
 
   const user = await User.create({ name, email, password })
@@ -19,12 +19,12 @@ export async function POST(req: Request) {
   const token = await signToken({
     userId: user._id.toString(),
     email: user.email,
-    role: user.role,
     name: user.name,
   })
 
   cookies().set(TOKEN_NAME, token, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
   })

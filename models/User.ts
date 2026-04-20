@@ -6,7 +6,6 @@ export interface IUser extends Document {
   name: string
   email: string
   password: string
-  role: 'admin' | 'user'
   createdAt: Date
   updatedAt: Date
   comparePassword(candidate: string): Promise<boolean>
@@ -32,20 +31,12 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: [true, 'Password is required'],
       minlength: [6, 'Password must be at least 6 characters'],
-      select: false, // don't return password by default
-    },
-    role: {
-      type: String,
-      enum: ['admin', 'user'],
-      default: 'user',
+      select: false,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 )
 
-// Hash password before saving
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next()
   const salt = await bcrypt.genSalt(10)
@@ -53,12 +44,10 @@ UserSchema.pre('save', async function (next) {
   next()
 })
 
-// Compare password method
 UserSchema.methods.comparePassword = async function (candidate: string): Promise<boolean> {
   return bcrypt.compare(candidate, this.password)
 }
 
-// Prevent model recompilation in dev (Next.js hot reload)
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema)
 
 export default User

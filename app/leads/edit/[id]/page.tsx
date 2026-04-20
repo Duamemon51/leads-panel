@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import LeadForm from '@/components/LeadForm'
-import { Lead } from '@/types'
+import { Lead, LeadFormData } from '@/types'
 
-type LeadFormData = Omit<Lead, 'id' | 'createdAt'>
+
 
 export default function EditLeadPage() {
   const router = useRouter()

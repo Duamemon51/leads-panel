@@ -1,3 +1,28 @@
+// types/index.ts
+
+// ───────────────
+// Enums / Unions
+// ───────────────
+
+export type LeadStatus =
+  | 'New'
+  | 'Contacted'
+  | 'Qualified'
+  | 'Closed Won'
+  | 'Closed Lost'
+  | 'Follow Up'
+
+export type PaymentStatus =
+  | 'Pending'
+  | 'Paid'
+  | 'Refunded'
+  | 'Failed'
+  | 'Partial'
+
+// ───────────────
+// Main Lead Model (DB)
+// ───────────────
+
 export interface Lead {
   id: string
   email: string
@@ -10,7 +35,7 @@ export interface Lead {
   price: string
   orderNo: string
   regId: string
-  status: string
+  status: LeadStatus
   vueId: string
   city: string
   state: string
@@ -18,7 +43,7 @@ export interface Lead {
   where: string
   dateTime: string
   who: string
-  payment: string
+  payment: PaymentStatus
   stateY: string
   disposition: string
   disposition2: string
@@ -26,6 +51,17 @@ export interface Lead {
   remarks: string
   createdAt: string
 }
+
+// ───────────────
+// Form Type (Derived)
+// ───────────────
+
+export type LeadFormData = Omit<Lead, 'id' | 'createdAt'>
+
+// ───────────────
+// User Model
+// ───────────────
+
 export interface User {
   id: string
   name: string
@@ -33,5 +69,3 @@ export interface User {
   password: string
   role: 'admin' | 'user'
 }
-export type LeadStatus = 'New' | 'Contacted' | 'Qualified' | 'Closed Won' | 'Closed Lost' | 'Follow Up'
-export type PaymentStatus = 'Pending' | 'Paid' | 'Refunded' | 'Failed'

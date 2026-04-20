@@ -22,7 +22,6 @@ export async function POST(req: Request) {
   const token = await signToken({
     userId: user._id.toString(),
     email: user.email,
-    role: user.role,
     name: user.name,
   })
 
@@ -38,7 +37,6 @@ export async function POST(req: Request) {
       id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role,
     },
   })
 }
