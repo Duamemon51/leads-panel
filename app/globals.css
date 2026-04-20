@@ -5,60 +5,250 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Font variables ── */
 :root {
-  --font-syne:    'Syne', sans-serif;
-  --font-dm:      'DM Sans', sans-serif;
-  --font-clash:   'Clash Display', sans-serif;
-  --font-mono:    'JetBrains Mono', monospace;
-
-  /* ── Light palette ── */
-  --bg-primary:   #f4f6fb;
-  --bg-surface:   #ffffff;
-  --bg-surface2:  #f0f3fa;
-  --bg-surface3:  #e8edf7;
-
-  --border:       rgba(99, 102, 241, 0.1);
-  --border-soft:  rgba(0, 0, 0, 0.06);
-
-  --text-primary:  #0f172a;
-  --text-secondary:#475569;
-  --text-muted:    #94a3b8;
-  --text-faint:    #cbd5e1;
+  --font-syne:  'Syne', sans-serif;
+  --font-dm:    'DM Sans', sans-serif;
+  --font-clash: 'Clash Display', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
 
   --indigo:        #4f46e5;
   --indigo-light:  #6366f1;
   --indigo-pale:   rgba(79, 70, 229, 0.08);
   --indigo-border: rgba(79, 70, 229, 0.18);
-
   --violet:        #7c3aed;
-  --violet-pale:   rgba(124, 58, 237, 0.07);
-
-  --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md:   0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-  --shadow-lg:   0 8px 32px rgba(0,0,0,0.1),  0 2px 8px rgba(0,0,0,0.05);
   --shadow-indigo: 0 4px 20px rgba(79,70,229,0.2);
 }
 
+/* ══════════════════════════════════
+   DARK MODE (default)
+══════════════════════════════════ */
+:root,
+html.dark {
+  --bg-page:      #05080f;
+  --bg-surface:   rgba(255,255,255,0.04);
+  --bg-surface2:  rgba(255,255,255,0.025);
+  --bg-input:     rgba(255,255,255,0.03);
+
+  --border-soft:  rgba(255,255,255,0.07);
+  --border-med:   rgba(255,255,255,0.10);
+
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+  --text-faint:     #334155;
+
+  --card-bg:        linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+  --card-border:    rgba(255,255,255,0.07);
+  --card-shadow:    0 4px 24px rgba(0,0,0,0.3);
+
+  --sidebar-bg:     linear-gradient(160deg, #0b0f1a 0%, #080c16 100%);
+  --sidebar-border: rgba(255,255,255,0.06);
+
+  --header-bg:      rgba(5,8,15,0.85);
+  --header-border:  rgba(255,255,255,0.06);
+
+  --modal-bg:       linear-gradient(145deg, rgba(14,18,32,0.98) 0%, rgba(10,13,24,0.98) 100%);
+  --modal-border:   rgba(255,255,255,0.08);
+
+  --row-hover:      rgba(255,255,255,0.018);
+  --input-border-focus: rgba(99,102,241,0.4);
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.2);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.3);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.4);
+
+  color-scheme: dark;
+}
+
+/* ══════════════════════════════════
+   LIGHT MODE
+══════════════════════════════════ */
+html.light {
+  --bg-page:      #f0f4ff;
+  --bg-surface:   rgba(0,0,0,0.025);
+  --bg-surface2:  rgba(0,0,0,0.015);
+  --bg-input:     #ffffff;
+
+  --border-soft:  rgba(0,0,0,0.08);
+  --border-med:   rgba(0,0,0,0.12);
+
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #64748b;
+  --text-faint:     #94a3b8;
+
+  --card-bg:        linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+  --card-border:    rgba(0,0,0,0.07);
+  --card-shadow:    0 2px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+
+  --sidebar-bg:     linear-gradient(160deg, #1e1b4b 0%, #1a1740 100%);
+  --sidebar-border: rgba(255,255,255,0.08);
+
+  --header-bg:      rgba(255,255,255,0.92);
+  --header-border:  rgba(0,0,0,0.08);
+
+  --modal-bg:       linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+  --modal-border:   rgba(0,0,0,0.10);
+
+  --row-hover:      rgba(79,70,229,0.04);
+  --input-border-focus: rgba(79,70,229,0.4);
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05);
+
+  color-scheme: light;
+}
+
+/* ══════════════════════════════════
+   BASE STYLES
+══════════════════════════════════ */
 * { box-sizing: border-box; }
 
 body {
   font-family: var(--font-dm);
-  background: var(--bg-primary);
+  background: var(--bg-page);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(99,102,241,0.25);
-  border-radius: 99px;
+::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.25); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(79,70,229,0.45); }
+
+/* ── Focus ring ── */
+*:focus-visible {
+  outline: 2px solid rgba(79,70,229,0.5);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(79,70,229,0.45);
+
+/* ══════════════════════════════════
+   THEME-AWARE UTILITY CLASSES
+   Use these instead of hardcoded Tailwind colors
+══════════════════════════════════ */
+
+/* Page background */
+.bg-page    { background: var(--bg-page) !important; }
+.bg-surface { background: var(--bg-surface) !important; }
+
+/* Text */
+.t-primary   { color: var(--text-primary) !important; }
+.t-secondary { color: var(--text-secondary) !important; }
+.t-muted     { color: var(--text-muted) !important; }
+.t-faint     { color: var(--text-faint) !important; }
+
+/* Cards */
+.card-themed {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 16px;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
+
+/* Sidebar */
+.sidebar-themed {
+  background: var(--sidebar-bg) !important;
+  border-right: 1px solid var(--sidebar-border) !important;
+  transition: background 0.25s ease;
+}
+
+/* Header */
+.header-themed {
+  background: var(--header-bg) !important;
+  border-bottom: 1px solid var(--header-border) !important;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+/* Modal */
+.modal-themed {
+  background: var(--modal-bg) !important;
+  border: 1px solid var(--modal-border) !important;
+  transition: background 0.25s ease;
+}
+
+/* Table rows */
+.lead-row { transition: background 0.15s ease; }
+.lead-row:hover { background: var(--row-hover); }
+
+/* Input */
+.input-themed {
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-soft) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.15s ease;
+}
+.input-themed:focus {
+  border-color: var(--input-border-focus) !important;
+  outline: none;
+}
+.input-themed::placeholder { color: var(--text-muted); }
+
+/* Pill / badge bg */
+.pill-themed {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+/* ══════════════════════════════════
+   LIGHT MODE — hardcoded Tailwind overrides
+   (for components using raw Tailwind classes)
+══════════════════════════════════ */
+html.light .text-white        { color: #0f172a !important; }
+html.light .text-slate-100    { color: #1e293b !important; }
+html.light .text-slate-200    { color: #1e293b !important; }
+html.light .text-slate-300    { color: #334155 !important; }
+html.light .text-slate-400    { color: #475569 !important; }
+html.light .text-slate-500    { color: #64748b !important; }
+html.light .text-slate-600    { color: #94a3b8 !important; }
+
+html.light .bg-\[\#05080f\],
+html.light .bg-\[\#080c14\],
+html.light .bg-\[\#0b0f1a\] { background: #f0f4ff !important; }
+
+/* Cards with rgba dark backgrounds */
+html.light [style*="rgba(255,255,255,0.04)"],
+html.light [style*="rgba(255,255,255,0.025)"],
+html.light [style*="rgba(255,255,255,0.015)"] {
+  background: #ffffff !important;
+}
+
+/* Borders */
+html.light [style*="rgba(255,255,255,0.07)"] { border-color: rgba(0,0,0,0.08) !important; }
+html.light [style*="rgba(255,255,255,0.05)"] { border-color: rgba(0,0,0,0.06) !important; }
+html.light [style*="rgba(255,255,255,0.06)"] { border-color: rgba(0,0,0,0.07) !important; }
+
+/* Input backgrounds */
+html.light input,
+html.light select,
+html.light textarea {
+  background: #ffffff !important;
+  border-color: rgba(0,0,0,0.10) !important;
+  color: #0f172a !important;
+}
+html.light input::placeholder,
+html.light textarea::placeholder { color: #94a3b8 !important; }
+
+/* Table row hover */
+html.light .table-row:hover { background: rgba(79,70,229,0.03) !important; }
+
+/* Modal dark bg overrides */
+html.light [style*="rgba(14,18,32"],
+html.light [style*="rgba(10,13,24"] {
+  background: rgba(255,255,255,0.98) !important;
+  border-color: rgba(0,0,0,0.10) !important;
+}
+html.light [style*="rgba(0,0,0,0.7)"] { background: rgba(0,0,0,0.45) !important; }
+
+/* Drag handle in light modal */
+html.light [style*="rgba(255,255,255,0.12)"] { background: rgba(0,0,0,0.12) !important; }
 
 /* ── Animations ── */
 @keyframes fadeUp {
@@ -82,80 +272,11 @@ body {
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ── Pulse dot ── */
 @keyframes pulse-glow {
   0%, 100% { opacity: 1; box-shadow: 0 0 0 0   rgba(16,185,129,0.45); }
   50%       { opacity: 0.8; box-shadow: 0 0 0 5px rgba(16,185,129,0); }
 }
 .pulse-dot { animation: pulse-glow 2s ease-in-out infinite; }
-
-/* ── Table rows ── */
-.lead-row { transition: background 0.15s ease; }
-.lead-row:hover { background: rgba(79,70,229,0.03); }
-
-/* ── Focus ring ── */
-*:focus-visible {
-  outline: 2px solid rgba(79,70,229,0.5);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-
-/* ── Backdrop for modals ── */
-.modal-backdrop {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* ── Glass surface (light) ── */
-.glass {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.9);
-}
-
-/* ── Ambient dot grid ── */
-.bg-grid {
-  background-image: radial-gradient(circle, rgba(99,102,241,0.1) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* ── Card surface ── */
-.card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-soft);
-  box-shadow: var(--shadow-sm);
-  border-radius: 16px;
-}
-.card-hover {
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-.card-hover:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
-}
-
-/* ── Sidebar active indicator ── */
-.nav-active-bar {
-  position: absolute;
-  left: 0;
-  width: 3px;
-  height: 20px;
-  background: var(--indigo);
-  border-radius: 0 4px 4px 0;
-}
-
-/* ── Stat number ── */
-.stat-num {
-  font-family: var(--font-clash);
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
 
 /* ── Button base ── */
 .btn-primary {
@@ -170,13 +291,10 @@ body {
   border: none;
   cursor: pointer;
 }
-.btn-primary:hover {
-  box-shadow: 0 6px 28px rgba(79,70,229,0.32);
-  transform: translateY(-1px);
-}
+.btn-primary:hover  { box-shadow: 0 6px 28px rgba(79,70,229,0.32); transform: translateY(-1px); }
 .btn-primary:active { transform: scale(0.97); }
 
-/* ── Status badge base ── */
+/* ── Badge ── */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -190,22 +308,16 @@ body {
   white-space: nowrap;
 }
 
-/* ── Action button ── */
-.action-btn {
-  padding: 6px;
-  border-radius: 8px;
-  transition: all 0.15s ease;
-  color: #94a3b8;
-}
-.action-btn:hover         { background: rgba(0,0,0,0.05); color: #475569; }
-.action-btn.edit:hover    { background: rgba(79,70,229,0.08); color: #4f46e5; }
-.action-btn.del:hover     { background: rgba(239,68,68,0.08); color: #ef4444; }
+/* ── Action buttons ── */
+.action-btn { padding: 6px; border-radius: 8px; transition: all 0.15s ease; color: #94a3b8; }
+.action-btn:hover      { background: rgba(0,0,0,0.05); color: #475569; }
+.action-btn.edit:hover { background: rgba(79,70,229,0.08); color: #4f46e5; }
+.action-btn.del:hover  { background: rgba(239,68,68,0.08); color: #ef4444; }
+
+html.light .action-btn:hover { background: rgba(0,0,0,0.06); color: #334155; }
 
 /* ── Modal animations ── */
-@keyframes backdropIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+@keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.96) translateY(10px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
@@ -217,7 +329,6 @@ body {
 .backdrop-anim { animation: backdropIn 0.2s ease; }
 .modal-anim    { animation: modalIn   0.25s ease; }
 
-/* Mobile bottom sheet */
 @media (max-width: 639px) {
   .modal-shell, .modal-shell-sm {
     position: fixed !important;
@@ -238,3 +349,24 @@ body {
   to   { transform: translateX(0); }
 }
 .drawer-anim { animation: drawerIn 0.28s cubic-bezier(0.32,0.72,0,1); }
+
+/* ── Stat number ── */
+.stat-num {
+  font-family: var(--font-clash);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Glass ── */
+.glass {
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.9);
+}
+.modal-backdrop { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.bg-grid {
+  background-image: radial-gradient(circle, rgba(99,102,241,0.1) 1px, transparent 1px);
+  background-size: 32px 32px;
+}

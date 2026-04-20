@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Sidebar from '@/components/Sidebar'
+import DashboardHeader from '@/components/DashboardHeader'
 import LeadForm from '@/components/LeadForm'
 
 interface LeadFull {
@@ -241,7 +242,8 @@ export default function LeadsPage() {
         <Sidebar />
 
         <main className="flex-1 min-w-0 overflow-x-hidden relative">
-
+ <DashboardHeader userName="Admin" />
+ 
           {/* Background */}
           <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
             <div className="absolute top-[-5%] right-[-5%] w-[550px] h-[550px] rounded-full"

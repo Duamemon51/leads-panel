@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useTheme } from './ThemeProvider'
 
 const navItems = [
   {
@@ -56,11 +57,13 @@ const LogoMark = ({ size = 36 }: { size?: number }) => (
 )
 
 export default function Sidebar() {
-  const pathname            = usePathname()
-  const router              = useRouter()
-  const [user, setUser]     = useState<any>(null)
+  const pathname              = usePathname()
+  const router                = useRouter()
+  const { theme, toggle }     = useTheme()
+  const isDark                = theme === 'dark'
+  const [user, setUser]       = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [open, setOpen]     = useState(false)
+  const [open, setOpen]       = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -74,7 +77,6 @@ export default function Sidebar() {
 
   useEffect(() => { setOpen(false) }, [pathname])
 
-  // Lock body scroll when drawer open
   useEffect(() => {
     if (open) document.body.style.overflow = 'hidden'
     else document.body.style.overflow = ''
@@ -88,20 +90,122 @@ export default function Sidebar() {
 
   const initial = loading ? '…' : (user?.name?.[0]?.toUpperCase() ?? '?')
 
+  // ── Theme-aware tokens ──
+  const sidebarBg      = isDark
+    ? 'linear-gradient(160deg, #0b0f1a 0%, #080c16 100%)'
+    : 'linear-gradient(160deg, #1e1b4b 0%, #1a1740 100%)'
+  const sidebarBorder  = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.08)'
+  const dividerColor   = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.07)'
+  const navLabelColor  = isDark ? '#334155' : 'rgba(255,255,255,0.25)'
+  const navInactiveColor = isDark ? '#64748b' : 'rgba(255,255,255,0.4)'
+  const navActiveColor   = '#a5b4fc'
+  const navActiveBg      = isDark ? 'rgba(99,102,241,0.10)' : 'rgba(99,102,241,0.20)'
+  const navActiveBorder  = isDark ? 'rgba(99,102,241,0.18)' : 'rgba(99,102,241,0.30)'
+  const navHoverBg       = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.06)'
+  const navHoverColor    = isDark ? '#cbd5e1' : 'rgba(255,255,255,0.85)'
+  const userCardBg     = isDark ? 'rgba(255,255,255,0.025)' : 'rgba(255,255,255,0.06)'
+  const userCardBorder = isDark ? 'rgba(255,255,255,0.06)'  : 'rgba(255,255,255,0.10)'
+  const versionBg      = isDark ? 'rgba(255,255,255,0.02)'  : 'rgba(255,255,255,0.04)'
+  const systemTextColor= isDark ? '#334155' : 'rgba(255,255,255,0.3)'
+  const closeBtnBg     = isDark ? 'rgba(255,255,255,0.04)'  : 'rgba(255,255,255,0.08)'
+  const closeBtnBorder = isDark ? 'rgba(255,255,255,0.06)'  : 'rgba(255,255,255,0.10)'
+  const avatarBorder2  = isDark ? '#0b0f1a' : '#1e1b4b'
+  const userNameColor  = isDark ? '#e2e8f0' : 'rgba(255,255,255,0.9)'
+  const userRoleColor  = isDark ? '#475569' : 'rgba(255,255,255,0.4)'
+  const logoutColor    = isDark ? '#475569' : 'rgba(255,255,255,0.35)'
+
+  // ── Theme toggle button (inside sidebar) ──
+  const ThemeBtn = () => (
+    <button
+      onClick={toggle}
+      title={isDark ? 'Light mode on karo' : 'Dark mode on karo'}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        width: '100%',
+        padding: '8px 12px',
+        background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)',
+        border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.10)'}`,
+        borderRadius: '12px',
+        cursor: 'pointer',
+        transition: 'all 0.15s ease',
+        color: isDark ? '#64748b' : 'rgba(255,255,255,0.4)',
+        marginBottom: '4px',
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget as HTMLElement
+        el.style.color = isDark ? '#818cf8' : '#a5b4fc'
+        el.style.background = isDark ? 'rgba(99,102,241,0.08)' : 'rgba(99,102,241,0.15)'
+        el.style.borderColor = isDark ? 'rgba(99,102,241,0.2)' : 'rgba(99,102,241,0.35)'
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget as HTMLElement
+        el.style.color = isDark ? '#64748b' : 'rgba(255,255,255,0.4)'
+        el.style.background = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)'
+        el.style.borderColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.10)'
+      }}
+    >
+      {/* Mini toggle track */}
+      <div style={{
+        width: '28px',
+        height: '15px',
+        borderRadius: '999px',
+        background: isDark ? 'rgba(99,102,241,0.2)' : 'rgba(99,102,241,0.35)',
+        border: `1px solid ${isDark ? 'rgba(99,102,241,0.3)' : 'rgba(99,102,241,0.5)'}`,
+        position: 'relative',
+        flexShrink: 0,
+        transition: 'all 0.2s ease',
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '1.5px',
+          left: isDark ? '1.5px' : '13px',
+          width: '10px',
+          height: '10px',
+          borderRadius: '50%',
+          background: isDark ? '#6366f1' : '#818cf8',
+          boxShadow: '0 0 6px rgba(99,102,241,0.5)',
+          transition: 'left 0.22s cubic-bezier(0.34,1.56,0.64,1)',
+        }} />
+      </div>
+
+      {isDark ? (
+        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5" strokeWidth="1.75"/>
+          <path strokeLinecap="round" strokeWidth="1.75" d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      ) : (
+        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      )}
+
+      <span style={{
+        fontSize: '11.5px',
+        fontWeight: 500,
+        fontFamily: 'DM Sans, sans-serif',
+        letterSpacing: '0.01em',
+      }}>
+        {isDark ? 'Light mode' : 'Dark mode'}
+      </span>
+    </button>
+  )
+
   const SidebarContent = ({ mobile = false }: { mobile?: boolean }) => (
     <div className="flex flex-col h-full">
 
       {/* ── Logo ── */}
       <div
         className="px-5 py-5 flex items-center justify-between flex-shrink-0"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+        style={{ borderBottom: `1px solid ${dividerColor}` }}
       >
         <div className="flex items-center gap-3">
           <LogoMark size={36} />
           <div>
             <h1
-              className="text-white font-bold text-[15px] leading-none tracking-tight"
-              style={{ fontFamily: 'Clash Display, sans-serif' }}
+              className="font-bold text-[15px] leading-none tracking-tight"
+              style={{ fontFamily: 'Clash Display, sans-serif', color: '#ffffff' }}
             >
               LeadPanel
             </h1>
@@ -117,8 +221,14 @@ export default function Sidebar() {
         {mobile && (
           <button
             onClick={() => setOpen(false)}
-            className="p-1.5 rounded-lg transition-colors text-slate-500 hover:text-white"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+            className="p-1.5 rounded-lg transition-colors"
+            style={{
+              background: closeBtnBg,
+              border: `1px solid ${closeBtnBorder}`,
+              color: isDark ? '#475569' : 'rgba(255,255,255,0.4)',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#ffffff' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = isDark ? '#475569' : 'rgba(255,255,255,0.4)' }}
           >
             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"/>
@@ -130,8 +240,8 @@ export default function Sidebar() {
       {/* ── Nav ── */}
       <nav className="flex-1 px-3 pt-5 space-y-1">
         <p
-          className="px-3 pb-3 text-[9px] font-semibold uppercase tracking-[0.28em] text-slate-600"
-          style={{ fontFamily: 'JetBrains Mono, monospace' }}
+          className="px-3 pb-3 text-[9px] font-semibold uppercase tracking-[0.28em]"
+          style={{ fontFamily: 'JetBrains Mono, monospace', color: navLabelColor }}
         >
           Navigation
         </p>
@@ -147,25 +257,24 @@ export default function Sidebar() {
               href={href}
               className="group relative flex items-center justify-between px-3 py-2.5 rounded-xl text-[13.5px] font-medium transition-all duration-200 active:scale-[0.98]"
               style={{
-                color: isActive ? '#a5b4fc' : '#64748b',
-                background: isActive ? 'rgba(99,102,241,0.1)' : 'transparent',
-                border: isActive ? '1px solid rgba(99,102,241,0.18)' : '1px solid transparent',
+                color: isActive ? navActiveColor : navInactiveColor,
+                background: isActive ? navActiveBg : 'transparent',
+                border: isActive ? `1px solid ${navActiveBorder}` : '1px solid transparent',
                 fontFamily: 'DM Sans, sans-serif',
               }}
               onMouseEnter={e => {
                 if (!isActive) {
-                  (e.currentTarget as HTMLElement).style.color = '#cbd5e1'
-                  ;(e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'
+                  (e.currentTarget as HTMLElement).style.color = navHoverColor
+                  ;(e.currentTarget as HTMLElement).style.background = navHoverBg
                 }
               }}
               onMouseLeave={e => {
                 if (!isActive) {
-                  (e.currentTarget as HTMLElement).style.color = '#64748b'
+                  (e.currentTarget as HTMLElement).style.color = navInactiveColor
                   ;(e.currentTarget as HTMLElement).style.background = 'transparent'
                 }
               }}
             >
-              {/* Active left bar */}
               {isActive && (
                 <span
                   className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-full"
@@ -174,7 +283,7 @@ export default function Sidebar() {
               )}
 
               <div className="flex items-center gap-3 pl-1">
-                <span style={{ color: isActive ? '#818cf8' : '#475569', transition: 'color 0.15s' }}>
+                <span style={{ color: isActive ? '#818cf8' : (isDark ? '#475569' : 'rgba(255,255,255,0.3)'), transition: 'color 0.15s' }}>
                   {icon}
                 </span>
                 {label}
@@ -194,19 +303,20 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* ── Version tag ── */}
-      <div className="px-4 pb-3">
+      {/* ── Theme toggle + version tag ── */}
+      <div className="px-3 pb-3 space-y-2">
+        <ThemeBtn />
         <div
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
-          style={{ background: 'rgba(255,255,255,0.02)' }}
+          style={{ background: versionBg }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full flex-shrink-0"
             style={{ background: '#34d399', boxShadow: '0 0 5px rgba(52,211,153,0.6)' }}
           />
           <span
-            className="text-[10px] text-slate-600"
-            style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            className="text-[10px]"
+            style={{ fontFamily: 'JetBrains Mono, monospace', color: systemTextColor }}
           >
             System Online
           </span>
@@ -216,13 +326,13 @@ export default function Sidebar() {
       {/* ── User card ── */}
       <div
         className="p-3 flex-shrink-0"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
+        style={{ borderTop: `1px solid ${dividerColor}` }}
       >
         <div
           className="flex items-center gap-3 p-3 rounded-xl transition-all"
           style={{
-            background: 'rgba(255,255,255,0.025)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            background: userCardBg,
+            border: `1px solid ${userCardBorder}`,
           }}
         >
           {/* Avatar */}
@@ -241,7 +351,7 @@ export default function Sidebar() {
               className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full"
               style={{
                 background: '#34d399',
-                border: '2px solid #0b0f1a',
+                border: `2px solid ${avatarBorder2}`,
                 boxShadow: '0 0 6px rgba(52,211,153,0.5)',
               }}
             />
@@ -250,14 +360,14 @@ export default function Sidebar() {
           {/* Info */}
           <div className="flex-1 min-w-0">
             <p
-              className="text-slate-200 text-[13px] font-semibold truncate leading-tight"
-              style={{ fontFamily: 'DM Sans, sans-serif' }}
+              className="text-[13px] font-semibold truncate leading-tight"
+              style={{ fontFamily: 'DM Sans, sans-serif', color: userNameColor }}
             >
               {loading ? 'Loading…' : (user?.name || 'Guest')}
             </p>
             <p
-              className="text-[10px] text-slate-600 capitalize truncate mt-0.5 font-light"
-              style={{ fontFamily: 'DM Sans, sans-serif' }}
+              className="text-[10px] capitalize truncate mt-0.5 font-light"
+              style={{ fontFamily: 'DM Sans, sans-serif', color: userRoleColor }}
             >
               {user?.role || 'Limited Access'}
             </p>
@@ -268,13 +378,13 @@ export default function Sidebar() {
             onClick={handleLogout}
             className="flex-shrink-0 p-1.5 rounded-lg transition-all"
             title="Sign Out"
-            style={{ color: '#475569' }}
+            style={{ color: logoutColor }}
             onMouseEnter={e => {
               ;(e.currentTarget as HTMLElement).style.color = '#fb7185'
               ;(e.currentTarget as HTMLElement).style.background = 'rgba(244,63,94,0.08)'
             }}
             onMouseLeave={e => {
-              ;(e.currentTarget as HTMLElement).style.color = '#475569'
+              ;(e.currentTarget as HTMLElement).style.color = logoutColor
               ;(e.currentTarget as HTMLElement).style.background = 'transparent'
             }}
           >
@@ -289,7 +399,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Google Fonts — must load once globally; safe to repeat */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -304,7 +413,6 @@ export default function Sidebar() {
         .drawer-anim   { animation: drawerIn   0.28s cubic-bezier(0.32, 0.72, 0, 1); }
         .backdrop-fade { animation: backdropIn 0.2s ease; }
 
-        /* Pulse dot */
         @keyframes pulse-ring {
           0%   { box-shadow: 0 0 0 0   rgba(52,211,153,0.5); }
           70%  { box-shadow: 0 0 0 5px rgba(52,211,153,0); }
@@ -317,36 +425,63 @@ export default function Sidebar() {
       <header
         className="lg:hidden sticky top-0 z-50 flex items-center justify-between px-4 py-3"
         style={{
-          background: 'rgba(5,8,15,0.88)',
+          background: isDark ? 'rgba(5,8,15,0.88)' : 'rgba(30,27,75,0.92)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: `1px solid ${sidebarBorder}`,
         }}
       >
         <div className="flex items-center gap-2.5">
           <LogoMark size={30} />
           <span
-            className="text-white font-bold text-[14px]"
-            style={{ fontFamily: 'Clash Display, sans-serif' }}
+            className="font-bold text-[14px]"
+            style={{ fontFamily: 'Clash Display, sans-serif', color: '#ffffff' }}
           >
             LeadPanel
           </span>
         </div>
 
-        <button
-          onClick={() => setOpen(true)}
-          className="p-2 rounded-xl transition-all"
-          aria-label="Open menu"
-          style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.07)',
-            color: '#94a3b8',
-          }}
-        >
-          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+        <div className="flex items-center gap-2">
+          {/* Theme toggle — mobile top bar */}
+          <button
+            onClick={toggle}
+            title={isDark ? 'Light mode' : 'Dark mode'}
+            className="p-2 rounded-xl transition-all"
+            style={{
+              background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.12)'}`,
+              color: isDark ? '#64748b' : 'rgba(255,255,255,0.5)',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#818cf8' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = isDark ? '#64748b' : 'rgba(255,255,255,0.5)' }}
+          >
+            {isDark ? (
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5" strokeWidth="1.75"/>
+                <path strokeLinecap="round" strokeWidth="1.75" d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+            ) : (
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+              </svg>
+            )}
+          </button>
+
+          <button
+            onClick={() => setOpen(true)}
+            className="p-2 rounded-xl transition-all"
+            aria-label="Open menu"
+            style={{
+              background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.12)'}`,
+              color: isDark ? '#94a3b8' : 'rgba(255,255,255,0.6)',
+            }}
+          >
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
       </header>
 
       {/* ══ Mobile drawer backdrop ══ */}
@@ -363,8 +498,8 @@ export default function Sidebar() {
         <aside
           className="fixed top-0 left-0 h-full w-64 z-[70] lg:hidden drawer-anim flex flex-col"
           style={{
-            background: 'linear-gradient(160deg, #0b0f1a 0%, #080c16 100%)',
-            borderRight: '1px solid rgba(255,255,255,0.07)',
+            background: sidebarBg,
+            borderRight: `1px solid ${sidebarBorder}`,
             boxShadow: '8px 0 40px rgba(0,0,0,0.5)',
           }}
         >
@@ -376,8 +511,9 @@ export default function Sidebar() {
       <aside
         className="hidden lg:flex w-60 xl:w-64 flex-shrink-0 flex-col min-h-screen"
         style={{
-          background: 'linear-gradient(160deg, #0b0f1a 0%, #080c16 100%)',
-          borderRight: '1px solid rgba(255,255,255,0.06)',
+          background: sidebarBg,
+          borderRight: `1px solid ${sidebarBorder}`,
+          transition: 'background 0.3s ease',
         }}
       >
         <SidebarContent />
