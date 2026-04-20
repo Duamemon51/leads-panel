@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { LeadFormData, LeadStatus, PaymentStatus } from '@/types'
+import { LeadFormData, LeadStatus } from '@/types'
 const emptyForm: LeadFormData = {
   email: '', country: '', address: '', phone: '', comptiaId: '',
   exam: '', examDate: '', price: '', orderNo: '', regId: '',
@@ -63,24 +63,34 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
-export default function LeadForm({ initialData, onSubmit, isLoading, isEdit, onCancel }: Props) {
-  const [form, setForm] = useState<LeadFormData>({ ...emptyForm, ...initialData })
+export default function LeadForm({
+  initialData,
+  onSubmit,
+  isLoading,
+  isEdit,
+  onCancel
+}: Props) {
+
+  const [form, setForm] = useState<LeadFormData>({
+    ...emptyForm,
+    ...initialData
+  })
 
   const set =
-  (field: keyof LeadFormData) =>
-  (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    let value: any = e.target.value
+    (field: keyof LeadFormData) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      const value = e.target.value
 
-    if (field === 'status') value = value as LeadStatus
-    if (field === 'payment') value = value as PaymentStatus
+      setForm(prev => ({
+        ...prev,
+        [field]: value
+      }))
+    }
 
-    setForm(prev => ({ ...prev, [field]: value }))
-  }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit(form)
   }
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -176,13 +186,14 @@ export default function LeadForm({ initialData, onSubmit, isLoading, isEdit, onC
             ))}
           </select>
         </Field>
-        <Field label="Payment">
-          <select value={form.payment} onChange={set('payment')} className={inputCls}>
-            {['Approved'].map(o => (
-              <option key={o} value={o}>{o}</option>
-            ))}
-          </select>
-        </Field>
+       <Field label="Payment">
+  <input
+    value={form.payment}
+    onChange={set('payment')}
+    placeholder="Approved / Pending / Failed"
+    className={inputCls}
+  />
+</Field>
         <Field label="Disposition">
           <input value={form.disposition} onChange={set('disposition')} placeholder="Notes on outcome…" className={inputCls} />
         </Field>

@@ -12,8 +12,6 @@ export type LeadStatus =
   | 'Closed Lost'
   | 'Follow Up'
 
-export type PaymentStatus =
-  | 'Approved'
 
 
 // ───────────────
@@ -40,7 +38,7 @@ export interface Lead {
   where: string
   dateTime: string
   who: string
-  payment: PaymentStatus
+  payment: string
   stateY: string
   disposition: string
   disposition2: string

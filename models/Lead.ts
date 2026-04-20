@@ -17,6 +17,7 @@ export interface ILead extends Document {
   vueId: string
   city: string
   state: string
+  stateY: string   // ✅ ADDED
   postalCode: string
   where: string
   dateTime: string
@@ -56,6 +57,7 @@ const LeadSchema = new Schema<ILead>(
     vueId: { type: String, default: '' },
     city: { type: String, default: '' },
     state: { type: String, default: '' },
+    stateY: { type: String, default: '' }, // ✅ ADDED HERE
     postalCode: { type: String, default: '' },
 
     where: { type: String, default: '' },
