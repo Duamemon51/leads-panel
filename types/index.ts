@@ -13,7 +13,7 @@ export type LeadStatus =
   | 'Follow Up'
 
 export type PaymentStatus =
-  | 'Pending'
+  | 'Approved'
   | 'Paid'
   | 'Refunded'
   | 'Failed'

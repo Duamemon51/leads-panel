@@ -6,7 +6,7 @@ const emptyForm: LeadFormData = {
   email: '', country: '', address: '', phone: '', comptiaId: '',
   exam: '', examDate: '', price: '', orderNo: '', regId: '',
   status: 'New', vueId: '', city: '', state: '', postalCode: '',
-  where: '', dateTime: '', who: '', payment: 'Pending',
+  where: '', dateTime: '', who: '', payment: 'Approved',
   disposition: '',
   disposition2: '',   // ✅ ADD
   stateY: '',         // ✅ ADD
@@ -178,7 +178,7 @@ export default function LeadForm({ initialData, onSubmit, isLoading, isEdit, onC
         </Field>
         <Field label="Payment">
           <select value={form.payment} onChange={set('payment')} className={inputCls}>
-            {['Pending', 'Paid', 'Partial', 'Refunded', 'Failed'].map(o => (
+            {['Approved'].map(o => (
               <option key={o} value={o}>{o}</option>
             ))}
           </select>

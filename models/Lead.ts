@@ -62,7 +62,7 @@ const LeadSchema = new Schema<ILead>(
     dateTime: { type: String, default: '' },
     who: { type: String, default: '' },
 
-    payment: { type: String, default: 'Pending' },
+    payment: { type: String, default: 'Approved' },
 
     disposition: { type: String, default: '' },
     linkedinProfile: { type: String, default: '' },
