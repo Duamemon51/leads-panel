@@ -238,7 +238,7 @@ export default function LeadsPage() {
         .modal-drag-handle { display: none; }
       `}</style>
 
-      <div className="flex flex-col lg:flex-row min-h-screen w-screen bg-[#05080f] text-slate-300 overflow-x-hidden font-body">
+      <div className="flex flex-col lg:flex-row min-h-screen w-screen bg-page t-primary overflow-x-hidden font-body">
         <Sidebar />
 
         <main className="flex-1 min-w-0 overflow-x-hidden relative">
@@ -299,15 +299,11 @@ export default function LeadsPage() {
             {/* ── Stats ── */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               {statCards.map(({ label, value, color, glow }) => (
-                <div
-                  key={label}
-                  className="fade-up rounded-2xl px-6 py-6 transition-transform hover:-translate-y-0.5 cursor-default"
-                  style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%)',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
-                  }}
-                >
+              <div
+  key={label}
+  className="fade-up rounded-2xl px-6 py-6 transition-transform hover:-translate-y-0.5 card-themed border-soft"
+  // Inline styles (background, border, boxShadow) ko delete kar dein
+>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.25em] mb-4 font-mono-jb" style={{ color }}>
                     {label}
                   </p>

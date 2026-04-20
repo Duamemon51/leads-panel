@@ -23,13 +23,14 @@ interface Props {
 }
 
 const inputCls = [
-  'w-full bg-slate-900/60 border border-white/[0.07]',
-  'rounded-xl px-3.5 py-2.5 text-white placeholder-slate-600',
-  'focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30',
-  'transition-all text-sm hover:border-white/[0.12]',
+  'w-full input-themed', // Aapki globals.css wali class
+  'rounded-xl px-3.5 py-2.5 text-sm',
+  'placeholder:text-slate-500', // Light/Dark dono par nazar aayega
+  'transition-all',
 ].join(' ')
 
-const labelCls = 'block text-[11px] font-semibold uppercase tracking-widest text-slate-600 mb-1.5'
+// ✅ Update karein
+const labelCls = 'block text-[11px] font-semibold uppercase tracking-widest t-muted mb-1.5'
 
 function Field({ label, children, span2 = false }: { label: string; children: React.ReactNode; span2?: boolean }) {
   return (
@@ -51,10 +52,13 @@ const sectionColors: Record<string, string> = {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   const gradient = sectionColors[title] ?? 'from-indigo-500 to-violet-500'
   return (
-    <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-white/[0.05] flex items-center gap-3">
+    // 1. bg-white/[0.02] hata kar "card-themed" lagayein
+    <div className="card-themed overflow-hidden"> 
+      {/* 2. border-white/[0.05] hata kar "border-soft" lagayein */}
+      <div className="px-5 py-4 border-b border-soft flex items-center gap-3">
         <div className={`w-1 h-5 rounded-full bg-gradient-to-b ${gradient}`} />
-        <h3 className="text-white font-semibold text-sm">{title}</h3>
+        {/* 3. text-white hata kar "t-primary" lagayein */}
+        <h3 className="t-primary font-semibold text-sm">{title}</h3>
       </div>
       <div className="p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {children}
@@ -181,10 +185,11 @@ export default function LeadForm({
       <Section title="Status & Payment">
         <Field label="Status">
           <select value={form.status} onChange={set('status')} className={inputCls}>
-            {['New', 'Contacted', 'Qualified', 'Closed Won', 'Closed Lost', 'Follow Up'].map(o => (
-              <option key={o} value={o}>{o}</option>
-            ))}
-          </select>
+  {['New', 'Contacted', 'Qualified', 'Closed Won', 'Closed Lost', 'Follow Up'].map(o => (
+    <option key={o} value={o} className="bg-page t-primary">{o}</option> 
+    // ^ "bg-page" aur "t-primary" add karein
+  ))}
+</select>
         </Field>
        <Field label="Payment">
   <input
@@ -227,14 +232,15 @@ export default function LeadForm({
 
       {/* ── Actions ── */}
       <div className="flex flex-col-reverse sm:flex-row gap-3 pt-1">
-        <button
-          type="button"
-          onClick={onCancel}
-          disabled={isLoading}
-          className="flex-1 sm:flex-none sm:px-6 py-3 bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.07] text-slate-300 rounded-xl transition-all text-sm font-semibold disabled:opacity-50"
-        >
-          Cancel
-        </button>
+        // ✅ Isko "pill-themed" aur "t-muted" dein
+<button
+  type="button"
+  onClick={onCancel}
+  disabled={isLoading}
+  className="flex-1 sm:flex-none sm:px-6 py-3 pill-themed t-muted rounded-xl transition-all text-sm font-semibold hover:brightness-110 disabled:opacity-50"
+>
+  Cancel
+</button>
         <button
           type="submit"
           disabled={isLoading}
