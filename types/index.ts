@@ -14,10 +14,7 @@ export type LeadStatus =
 
 export type PaymentStatus =
   | 'Approved'
-  | 'Paid'
-  | 'Refunded'
-  | 'Failed'
-  | 'Partial'
+
 
 // ───────────────
 // Main Lead Model (DB)
